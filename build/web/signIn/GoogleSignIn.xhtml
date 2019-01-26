@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Created by Bengi Sevil on 2018.10.30
+Copyright © 2018 Bengi Sevil. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+            
+             <ui:define name="title">
+             <br></br><br></br>
+            <h:outputText value="Create Account"></h:outputText>
+        </ui:define>
+
+            <div align="center" width="100%">
+                
+                <h:form id="AccountCreationForm">
+                    <!--
+                    <h1>Create an Account</h1>
+                    -->
+                    <br></br><br></br><br></br><br></br>
+                    <br></br><br></br><br></br><br></br>
+                    <h1>Set up You Account as a Participant</h1>
+                    <br></br>
+                    <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2">
+                        
+                        <!--
+                        ********************************
+                        *       SECURITY QUESTION      *
+                        ********************************
+                        -->
+                        <p:outputLabel value="Security Question:" for="securityQuestion" />
+                        <p:selectOneMenu id="securityQuestion"
+                                         value="#{userController.securityQuestionNumber}" required="true" >
+                            <!--
+                            List of security questions is displayed for the user to select one.
+                            -->
+                            <f:selectItems value="#{userController.security_questions}"/>
+                        </p:selectOneMenu>
+
+                        <!--
+                        ********************************
+                        *        SECURITY ANSWER       *
+                        ********************************
+                        -->
+                        <p:outputLabel value="Security Answer:" for="securityAnswer" />
+                        <p:inputText id="securityAnswer" value="#{userController.answerToSecurityQuestion}" 
+                                     required="true" class="inputTextField"
+                                     requiredMessage="#{bundle.CreateUserRequiredMessage_securityAnswer}">
+                            <f:validateLength minimum="2" />
+                        </p:inputText>
+
+          
+ 
+                        <p:outputLabel value="Community Event Organizer?"/>
+                        <h:outputText value="No"/>
+                        
+                    </p:panelGrid>
+                    <br />
+
+                    <!--
+                    ================================
+                    |        SUBMIT Button         |
+                    ================================
+                    -->
+                    <p:commandButton id="Submit" value="Submit" action="#{userController.signUpWithGoogle()}" 
+                                     ajax="false" icon="fas fa-arrow-up" />
+                    &nbsp;&nbsp;
+                    <!--
+                    ================================
+                    |        CANCEL Button         |
+                    ================================
+                    -->
+                    <p:button outcome="/index" value="Cancel" icon="fas fa-ban"  />
+
+                </h:form>
+            </div>
+        </ui:define>
+
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>

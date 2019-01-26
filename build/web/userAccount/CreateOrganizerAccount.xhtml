@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Created by Bengi Sevil on 2018.10.30
+Copyright © 2018 Bengi Sevil. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+            
+             <ui:define name="title">
+             <br></br><br></br><br></br><br></br>
+             <br></br><br></br>
+            <h:outputText value="Set Up your Organizer Account"></h:outputText>
+        </ui:define>
+
+            <div align="center" width="100%">
+                <h:form id="OrganizerAccountCreationForm">
+                    <!--
+                    <h1>Create an Account</h1>
+                    -->
+                    <br></br><br></br><br></br><br></br>
+                    <br></br><br></br><br></br><br></br>
+                    <p:panelGrid columns="1" columnClasses="panelGridColumn1, panelGridColumn2">
+                        <!--
+                        ********************************
+                        *          Organizer Name          *
+                        ********************************
+                        -->
+                        <p:outputLabel value="Organizer Name" for="organizerName" />
+                        
+                        <p:inputText id="organizerName" value="#{userController.organizationName}" required="true" class="inputTextField"
+                                     requiredMessage="Need a Organization Name for the Organizer Account">
+                            <f:validateLength minimum="2" />
+                        </p:inputText>   
+
+                        <!--
+                        ********************************
+                        *         Organizer Des        *
+                        ********************************
+                        -->
+                        <p:outputLabel value="Organizer Description" for="organizerDes" />
+                        <p:inputTextarea rows="10" cols="50" 
+                                         queryDelay="750" minQueryLength="4"
+                                         id="organizerDes" value="#{userController.organizationDescription}"
+                                         required="true" class="inputTextField"
+                                         requiredMessage="Need a Organization Name for the Organizer Account">
+                        </p:inputTextarea>
+                        
+                    </p:panelGrid>
+                    <br />
+
+                    <!--
+                    ================================
+                    |        SUBMIT Button         |
+                    ================================
+                    -->
+                    <p:commandButton id="Submit" value="Submit" action="#{userController.setupOrganizerAccount()}" 
+                                     ajax="false" icon="fas fa-arrow-up" />
+                    &nbsp;&nbsp;
+                    <!--
+                    ================================
+                    |        CANCEL Button         |
+                    ================================
+                    -->
+                    <p:button outcome="/index" value="Cancel" icon="fas fa-ban"  />
+
+                </h:form>
+            </div>
+        </ui:define>
+
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>

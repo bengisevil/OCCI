@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Created by Chengen Li on 2018.09.25
+Copyright © 2018 Chengen Li. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+   <!-- table list view for user videos-->
+    <ui:composition template="/template/siteTemplate.xhtml">
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="All Events"></h:outputText>
+        </ui:define>
+
+        <ui:define name="editableContent">
+
+            <div align="center" style="width:97%">
+                <br></br> <br></br><br></br> <br></br><br></br> <br></br>
+                <h1>Public Events</h1>
+                <h:form id="AllEventForm">
+                    <p:panel id="abc" style="margin-bottom: 100px; margin-top: 20px">
+                      <p:dataTable id="datalist" value="#{userEventController.publicEvents}" var="event"
+                                     selectionMode="single" selection="#{userEventController.publicEvent}"
+                                     reflow="true"
+                                     paginator="true"
+                                     rowKey="#{event.id}"
+                                     rows="10"
+                                     rowsPerPageTemplate="5,10,20,30,50,70,90"
+                                     class="dataTable"
+                                     >
+                            <!-- Update the status of buttons at the bottom of the table when user select of un-select the 
+                            publicVideos in the table-->
+                            <p:ajax event="rowSelect"   update="signupButton"/>
+                            <p:ajax event="rowUnselect" update="signupButton"/>
+                            <p:column style="width:16px">
+                                <p:rowToggler id="expand"/>
+                            </p:column>
+                            <p:tooltip id="tip" for="expand" value="Click to Show Event Details" position="top"/>
+                           
+                            
+                            <!-- Showing event title-->
+                            <p:column sortBy="#{event.eventName}" headerText="Event Name" 
+                                      style="text-align: center; width:100px; height: 50px">
+                                <h:outputText value="#{event.eventName}"/>
+                            </p:column>
+                            
+                            <!-- Showing organizer name -->
+                            <p:column sortBy="#{event.organizer}" headerText="Event Organizer" 
+                                      style="text-align: center; width:100px;">
+                                <h:commandLink action="#{userEventController.organizerPage(event.organizerId)}" 
+                                               class="standardText" value="#{event.organizer}"/>
+                            </p:column>
+
+                            <!-- Showing event time -->
+                            <p:column sortBy="#{event.date}"  headerText="Date of the Event" 
+                                      style="text-align: center; width:100px;">
+                                <h:outputText  value="#{event.date}">
+                                  <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            
+                            <p:column sortBy="#{event.location}"  headerText="Location of the Event" 
+                                      style="text-align: center; width:100px;">
+                                <h:outputText  value="#{event.location}"/>
+                            </p:column>
+                            
+                            <p:column sortBy="#{event.zipcode}"  headerText="Zip Code" 
+                                      style="text-align: center; width:100px;">
+                                <h:outputText value="#{event.zipcode}"/>
+                            </p:column>
+                            
+                            <!-- Showing avaliable seats out of total seats of the event-->
+                            <p:column headerText="Avaliable Seats" 
+                                      style="text-align: center; width:100px;">
+                                <h:outputText value="#{event.capacity - event.peopleNum}"/>
+                            </p:column>
+                            
+                            <p:rowExpansion>
+                                
+                                <p:panelGrid  columns="1"  style="width:300px">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{event.organizer}" style="font-size: 16pt; color: darkblue"/>
+                                    </f:facet>
+                                    <p:outputPanel deferred="true" style="width: 100%; max-width: 97%; word-wrap:break-word">
+                                        <p style="text-align: center"> #{event.description}</p>
+                                    </p:outputPanel>
+                                </p:panelGrid>
+                            </p:rowExpansion>
+
+                            <br /><br />
+
+                            <f:facet name="footer">
+                               
+                               <!-- To show the sign up the event -->
+                                <p:commandButton id="signupButton" icon="fas fa-plus" value="Register for this Event" 
+                                                 action="#{userEventController.signUp}"
+                                                 update=":growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
+                                                 disabled="#{empty userEventController.publicEvent}">
+                                        <p:confirm header="Confirmation" 
+                                               message="Are you sure you want to register this event?" 
+                                               icon="fas fa-exclamation-triangle fa-2x" /> 
+                                </p:commandButton>
+                               
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                               
+                                <p:commandButton id="backButton" icon="fas fa-arrow-right" value="Back To My Account" ajax="false"
+                                                 action="ParticipantProfile.xhtml?faces-redirect=true"/>
+                               
+                                <p:confirmDialog id="confirmDialogBox" global="true" showEffect="fade" hideEffect="fade" >
+                                    <div align="center">
+
+                                        <p:commandButton value="No" type="button" 
+                                                         class="ui-confirmdialog-no" icon="fas fa-window-close" />
+                                        &nbsp;
+                                        <p:commandButton value="Yes" type="button" 
+                                                         class="ui-confirmdialog-yes" icon="fas fa-check-square" />
+                                    </div>
+                                </p:confirmDialog>
+                               
+                            </f:facet>
+                      </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </div>
+            
+        </ui:define>
+
+    </ui:composition>
+
+
+</html>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Osman Balci on 2018.07.19
+Copyright © 2018 Osman Balci. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="Organizer Page"></h:outputText>
+        </ui:define>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+            <div align="center">
+                <br />
+                <span class="headingText"></span>
+                <br /><br />
+
+                <h:form id="OrganizerPageForm" style="margin-bottom: 120px">
+                    <br /><br /><br /><br />
+                    <h:panelGrid columns="3"  style="width: 70%; align-content: flex-start; align-items: center">
+                        <p:graphicImage cache="false" class="largePhoto" 
+                                        value="#{userEventController.getUserPhotoById(userEventController.organizerInfo.id)}" />
+                        <h:panelGroup >
+                            
+                            <h:outputText value="Organization Name" style="font-size: 16pt; color: black; width: 400px;"/><br></br>
+                            <h:outputText value="##{userEventController.organizerInfo.organizationName}"
+                                          style="font-size: 16pt; color: darkblue"/><br/><br/>
+
+                            <h:outputText value="Organizer's Name" style="font-size: 16pt; color: black"/><br/>
+                            <h:outputText value="#{userEventController.organizerInfo.firstName}"
+                                          style="font-size: 16pt; color: darkblue"/> &nbsp;
+                            <h:outputText value="#{userEventController.organizerInfo.lastName}"
+                                          style="font-size: 16pt; color: darkblue"/>
+                        </h:panelGroup>
+                            
+                        <h:panelGroup >
+                            <br></br>
+                            <h:outputText value="Organization Description" style="font-size: 16pt; color: black"></h:outputText>
+                            <br/>
+                            <p:outputPanel deferred="true" deferredMode="visible" 
+                                style=" word-break: break-all; width: 300px;">
+                                <p style="font-size: 16pt; color: darkblue;">#{userEventController.organizerInfo.organizationDescription}</p>
+
+                            </p:outputPanel>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                    
+                    <br></br> <br></br> <br></br>
+
+                    <p:dataScroller value="#{userEventController.organizerEvents}" var="item" 
+                                    mode="inline" scrollHeight="500">
+                        <f:facet name="header">
+                            Scroll Down to Load Event History
+                        </f:facet>
+
+                        <h:panelGrid columns="2" style="width:90%;">
+
+                            <p:outputPanel style="width: 400px">
+                                <h:panelGrid columns="2" cellpadding="5" style="text-align: left">
+                                    <h:outputText value="Title:" style="font-size: 14pt"/>
+                                    <h:outputText value="#{item.eventName}" style="font-size: 14pt"/>
+
+                                    <h:outputText value="Date:" style="font-size: 14pt"/>
+                                    <h:outputText value="#{item.date}" style="font-size: 14pt">
+                                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                                    </h:outputText>
+
+                                    <h:outputText value="Location:" style="font-size: 14pt"/>
+                                    <h:outputText value="#{item.location}" style="font-size: 14pt"/>
+                                    
+                                    <h:outputText value="Zip Code:" style="font-size: 14pt"/>
+                                    <h:outputText value="#{item.zipcode}" style="font-size: 14pt"/>
+                                </h:panelGrid>
+                            </p:outputPanel>
+
+                            <p:outputPanel style="width: 400px">
+                                <h:panelGrid columns="1" cellpadding="5" style="text-align: left">
+                                    <h:outputText value="Event Description:" style="font-size: 14pt"/>
+                                    <h:outputText value="#{item.description}" style="font-size: 14pt"/>
+                                </h:panelGrid>
+                            </p:outputPanel>
+
+                        </h:panelGrid>
+                    </p:dataScroller>
+
+                    <style type="text/css">
+                        .logo {
+                            width: 5%
+                        }
+
+                        .detail {
+                            width: 95%;
+                            padding-left: 25px;
+                        }
+
+                        .detail td {
+                            font-size: 24px;
+                        }
+
+                        .ui-datascroller .ui-datascroller-item {
+                            border-bottom: 1px solid #A8A8A8;
+                            padding: 25px 10px;
+                        }
+                    </style>
+
+
+
+
+
+                    <br /><br />
+
+                    <!--
+                    *********************
+                    *    BACK Button    *
+                    *********************
+                    -->
+                    <!-- When the "Back" button is clicked on, the Calculate.xhtml page is shown. -->
+                    <p:button outcome="/participant/PublicEventsList" value="Back to List"  icon="fas fa-arrow-left" />
+                    &nbsp;&nbsp;
+
+
+                </h:form>
+                <br /><br />
+            </div>
+        </ui:define>
+
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>

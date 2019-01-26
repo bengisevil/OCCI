@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Created by Zach King on 2018.12.02
+Copyright © 2018 Zach King. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="Surveys Report"></h:outputText>
+        </ui:define>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+            <div align="center" style="width:95%">
+
+                <h1 style="font-size: 14pt">Report on All #{surveysReportManager.numberOfTotalSurveys} of The Surveys Taken</h1>
+
+                <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+                <!-- Pie Chart for QUESTION 1 -->
+                <p:chart id="question1PieChart" type="pie" model="#{surveysReportManager.question1PieModel}" style="height:500px; width:60%;"/>
+                <br /><br />
+                <!-- Pie Chart for QUESTION 2 -->
+                <p:chart id="question2PieChart" type="pie" model="#{surveysReportManager.question2PieModel}" style="height:500px; width:60%"/>
+                <br /><br />
+                <!-- Bar Chart for QUESTION 3 -->
+                <p:chart id="question3BarChart" type="bar" model="#{surveysReportManager.question3BarModel}" style="height:600px; width:70%"/>
+                <br /><br />
+                <!-- Bar Chart for QUESTION 4 -->
+                <p:chart id="question4BarChart" type="bar" model="#{surveysReportManager.question4BarModel}" style="height:600px; width:70%"/>
+                <br /><br />
+                <!-- Bar Chart for QUESTION 5 -->
+                <p:chart id="question5BarChart" type="bar" model="#{surveysReportManager.question5BarModel}" style="height:600px; width:70%"/>
+                <br /><br />
+                <!-- Bar Chart for QUESTION 6 -->
+                <p:chart id="question6BarChart" type="bar" model="#{surveysReportManager.question6BarModel}" style="height:600px; width:70%"/>
+                <br /><br />
+                <br /><br />
+                <br /><br />
+
+                <!--
+        ********************************************************************************************
+        PrimeFaces p:chart uses jqPlot (http://www.jqplot.com/) JavaScript library to create charts.
+        
+        This JavaScript function barChartExtender() is created as an Extender and set in
+        BarChartController.java with
+        
+            model.setExtender("barChartExtender");
+        
+        for use to style the chart using the jqPlot properties listed at
+        (http://www.jqplot.com/docs/files/jqplot-core-js.html)
+        ********************************************************************************************
+                -->
+                <script type="text/javascript">
+                    function barChartExtender() {
+                        // this     ==> chart widget instance        
+                        // this.cfg ==> options        
+
+                        this.cfg.gridPadding = {
+                            top: 50, bottom: 50
+                        };
+
+                        this.cfg.legend = {
+                            show: true,
+                            placement: 'inside' // versus 'outside' of the chart
+                        };
+
+                        // Y Axis Styling
+                        this.cfg.axes.yaxis.labelOptions = {
+                            fontFamily: 'Arial, Helvetica, sans-serif',
+                            fontSize: '16pt',
+                            textColor: '#006400'  // Dark Green
+                        };
+
+                        // X Axis Styling
+                        this.cfg.axes.xaxis.labelOptions = {
+                            fontFamily: 'Arial, Helvetica, sans-serif',
+                            fontSize: '16pt',
+                            textColor: '#006400'  // Dark Green
+                        };
+
+
+                    }
+                </script>
+
+            </div>
+        </ui:define>
+
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>

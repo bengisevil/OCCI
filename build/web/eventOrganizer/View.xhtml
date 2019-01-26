@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <!-- Dialog box for creating new recipe -->
+        <p:dialog id="EventViewDlg" widgetVar="EventViewDialog" modal="true" 
+                  resizable="false" appendTo="@(body)" header="View Event">
+
+            <h:form id="EventViewForm" class="ui-datatable-data">
+               <!-- A grid for displaying four required input for creating a new recipe -->
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2" 
+                                 rendered="#{organizerEventController.organizerEvent != null}">                       
+
+                        <p:outputLabel value="Event Name:" for="eventName" />
+                        <h:outputText id="eventName"
+                                     value="#{organizerEventController.organizerEvent.eventName}" 
+                                     style="width: 600px"/>
+
+                        <p:outputLabel value="Event Organizer:" for="organizer" />
+                        <h:outputText id="organizer"
+                                     value="#{organizerEventController.organizerEvent.organizer}" 
+                                     style="width: 600px"/>
+
+                        <p:outputLabel value="Event Description:" for="description" />
+                        <h:outputText id="description"
+                                     value="#{organizerEventController.organizerEvent.description}" 
+                                     style="width: 600px"/>
+
+                        <p:outputLabel value="Date of the Event:" for="date" />
+                        <h:outputText id="date"
+                                    value="#{organizerEventController.organizerEvent.date}" />
+                        
+                         <p:outputLabel value="Location of the Event:" for="location" />
+                        <h:outputText id="location"
+                                     value="#{organizerEventController.organizerEvent.location}"
+                                     style="width: 600px"/>
+
+                        <p:outputLabel value="Zip Code:" for="zipcode" />
+                        <h:outputText id="zipcode"
+                                     value="#{organizerEventController.organizerEvent.zipcode}"
+                                     style="width: 600px"/>
+                        
+                        <p:outputLabel value="Event Seats Available:" for="capacity" />
+                        <h:outputText id="capacity"
+                                      value="#{organizerEventController.organizerEvent.capacity - organizerEventController.organizerEvent.peopleNum} " 
+                                     style="width: 600px"/>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <br />
+                    <div align="center">
+                        <!-- two buttons one for save the new recipe, and the other for cancel the action-->
+                    
+                        <p:commandButton value="Close" onclick="PF('EventViewDialog').hide()" 
+                                         icon="fas fa-ban" immediate="true" />
+                    </div>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+    </ui:composition>
+</html>

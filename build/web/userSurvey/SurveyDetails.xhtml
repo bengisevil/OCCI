@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Bengi Sevil on 2018.10.30
+Copyright © 2018 Bengi Sevil. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="Survey Details"></h:outputText>
+        </ui:define>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+            <div align="center" style="width:97%">
+
+                <h1>Details of the Health Survey Taken on </h1>
+                <h1>
+                    <h:outputText value="#{userSurveyController.selected.getDateEntered()}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </h1>
+                <br />
+                <h:form id="resultsForm">
+
+                    <p:dataTable id="datalist" value="#{userSurveyController.adminItems}" var="item"
+                                 paginator="true"
+                                 rowKey="#{item.questionNumber}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10"
+                                 class="dataTable" >
+
+                        <!-- 
+                        ***********************
+                        *   Question Number   *
+                        ***********************
+                        Question Number 16 is the last row showing the total values. Therefore,
+                        we do not show the values of some columns if it is the last totals row.
+                        -->
+                        <p:column headerText="Question Number" style="width:20px;text-align:center;" 
+                                  exportFunction="#{userSurveyController.convertIntToString(item.questionNumber)}">
+                            <!-- Render the row value of this column if it is not the last totals row  -->
+                            <p:row rendered="#{item.questionNumber ne 16}">
+                                <h:outputText class="standardText" value="#{item.questionNumber}"/>
+                            </p:row>
+                        </p:column>
+                 
+
+                        <!-- 
+                        *********************
+                        *   Question Title   *
+                        *********************
+                        -->
+                        <p:column headerText="Question Title" style="width:80px;text-align:center;" 
+                                  exportFunction="#{item.getQuestionName()}">
+                            <h:outputText class="standardText" value="#{item.questionName}"/>
+                        </p:column>
+
+                       
+                        <!-- 
+                        ********************************************
+                        *   Question Answer  *
+                        ********************************************
+                        -->
+                        <p:column headerText="Question Answer" style="width:80px;text-align:center;" 
+                                  exportFunction="#{item.getQuestionAnswer()}">
+                            <h:outputText class="standardText" value="#{item.questionAnswer}"/>
+                        </p:column>
+
+                        <!-- 
+                        ****************************************
+                        *** FOOTER Section of the Data Table ***
+                        ****************************************
+                        -->
+                        <f:facet name="footer">
+
+                            <p:commandButton value="Export as PDF" icon="fas fa-file-pdf" ajax="false">
+                                <!-- 
+                                PrimeFaces p:dataExporter uses itext-2.1.7.jar for exporting into PDF documents.
+                                itext-2.1.7.jar must be added to the Libraries folder. 
+                                Pre-process the PDF file to be in Landscape orientation on Letter size paper.
+                                -->
+                                <p:dataExporter type="pdf" target="datalist" fileName="HealthSurvey" preProcessor="#{surveyManager.preProcessPDF}"/>
+                            </p:commandButton>
+                            &nbsp;
+                            <p:commandButton value="Export as Excel" icon="fas fa-file-excel" ajax="false">
+                                <!-- 
+                                PrimeFaces p:dataExporter uses poi-3.15.jar for exporting into Microsoft documents.
+                                poi-3.15.jar must be added to the Libraries folder. 
+                                -->
+                                <p:dataExporter type="xls" target="datalist" fileName="HealthSurvey" />
+                            </p:commandButton>
+                            &nbsp;
+                            <p:commandButton value="Export as CSV" icon="fas fa-file" ajax="false">
+                                <!-- 
+                                PrimeFaces p:dataExporter uses poi-3.15.jar for exporting into Microsoft documents.
+                                poi-3.15.jar must be added to the Libraries folder. 
+                                -->
+                                <p:dataExporter type="csv" target="datalist" fileName="HealthSurvey" />
+                            </p:commandButton>
+                            &nbsp;
+                            <!-- Clicking the Cancel button shows the Profile page -->
+                            <p:button outcome="/userSurvey/SurveysTaken" value="Surveys Taken" icon="fas fa-arrow-left"  />
+                        </f:facet>
+                    </p:dataTable>
+
+                </h:form>
+
+            </div>
+            <br/>
+        </ui:define>
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>

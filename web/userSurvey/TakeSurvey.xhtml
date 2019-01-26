@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Bengi Sevil on 2018.10.30
+Copyright © 2018 Bengi Sevil. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Health Survey"></h:outputText>
+        </ui:define>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+            <div align="center" style="width:70%; margin:0 auto;">
+
+                <br /><br /><br /><br /><br /><br /><br /><br />
+                <h1>OCCI Survey</h1> 
+                <br />
+                <h:form id="surveyForm" style="margin-bottom: 120px">
+
+
+                    <p:accordionPanel id="accordionPanel" multiple="true">
+                        <!--
+                        *******************************
+                        *     Survey QUESTION 1     *
+                        *******************************
+                        -->
+                        <p:tab title="Question 1: Have you or someone in your immediate family been affected by the crisis?">
+                            <p:panel id="category1Panel" class=".ui-panel" >                            
+                            <table width="100%" border="0" cellspacing="0" cellpadding="5"> 
+                                <tr align="center">
+
+                                    <p:selectOneRadio id="question1" required="true" requiredMessage="Please Answer Question 1!"
+                                                  value="#{surveyManager.question1}" columns="1">
+                                    <f:selectItem itemLabel="Yes" itemValue="Yes"/>
+                                    <f:selectItem itemLabel="No" itemValue="No"/>                                                          
+
+                                </p:selectOneRadio>      
+                                </tr>
+                            </table> 
+                            </p:panel>
+                        </p:tab>
+
+                        <!--
+                        *******************************
+                        *     HEALTH QUESTION 2     *
+                        *******************************
+                        -->
+                        <p:tab title="Question 2: Do you know someone outside your family that has been affected by the crisis?">
+                            <p:panel id="category2Panel" class=".ui-panel" >                            
+                            <table width="100%" border="0" cellspacing="0" cellpadding="5"> 
+                                <tr align="center">
+                                    <p:selectOneRadio id="question2" required="true" requiredMessage="Please Answer Question 2!"
+                                              value="#{surveyManager.question2}" columns="1">
+                                <f:selectItem itemLabel="Yes" itemValue="Yes"/>
+                                <f:selectItem itemLabel="No" itemValue="No"/>                                                          
+
+                            </p:selectOneRadio>      
+                                </tr>
+                            </table> 
+                            </p:panel>
+                        </p:tab>
+
+                        <!--
+                        *******************************
+                        *     HEALTH QUESTION 3     *
+                        *******************************
+                        -->
+
+                        <p:tab title="Question 3: How well do you feel that your community is responding to the crisis?">
+                            <p:panel id="category3Panel" class=".ui-panel" >                              
+                            <table width="100%" border="0" cellspacing="0" cellpadding="5"> 
+                                <tr align="center">                                      
+                            <p:inputText id="question3" value="#{surveyManager.question3}" required="true" requiredMessage="Please Answer Question 3!">
+                                <f:validateLongRange minimum="0" maximum="10" /> 
+                            </p:inputText> 
+                                </tr>
+                                <tr>
+                                    <td align="right" width="30%">Very Poorly&nbsp;</td>
+                                    <td align="center" width="40%">
+                                        <p:slider animate="true" for="question3" step="1" minValue="0" maxValue="10" /> 
+                                    </td>
+                                    <td align="left" widht="30%">Very Well</td>
+                                </tr>   
+                            </table>        
+                            </p:panel>
+                        </p:tab>
+
+                        <!--
+                        *******************************
+                        *     HEALTH QUESTION 4     *
+                        *******************************
+                        -->
+                        <p:tab title="Question 4: How knowledgeable do you feel about the steps your community has taken in response to the crisis?">
+                            <p:panel id="category4Panel" class=".ui-panel" >                                 
+                            <table width="100%" border="0" cellspacing="0" cellpadding="5"> 
+                                <tr align="center">                                 
+                                    <p:inputText id="question4" value="#{surveyManager.question4}" required="true" 
+                                                 requiredMessage="Please Answer Question 4!">
+                                        <f:validateLongRange minimum="0" maximum="10" /> 
+                                    </p:inputText> 
+                                </tr>
+                                <tr>
+                                    <td align="right" width="30%">Not At All Knowledgeable&nbsp;</td>
+                                    <td align="center" width="40%">
+                                        <p:slider animate="true" for="question4" step="1" minValue="0" maxValue="10" /> 
+                                    </td>
+                                    <td align="left" widht="30%">Very Knowledgeable</td>
+                                </tr>
+                            </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--
+                        *******************************
+                        *     HEALTH QUESTION 5     *
+                        *******************************
+                        -->
+                        <p:tab title="Question 5: How involved are you in your community's response to the crisis?">
+                            <p:panel id="category5Panel" class=".ui-panel" >                            
+                            <table width="100%" border="0" cellspacing="0" cellpadding="5"> 
+                                <tr align="center">
+                                    <p:inputText id="question5" value="#{surveyManager.question5}" required="true" requiredMessage="Please Answer Question 5!">
+                                        <f:validateLongRange minimum="0" maximum="10" /> 
+                                    </p:inputText> 
+                                </tr>
+                                <tr>
+                                    <td align="right" width="30%">Not Involved At All&nbsp;</td>
+                                    <td align="center" width="40%">
+                                        <p:slider animate="true" for="question5" step="1" minValue="0" maxValue="10" /> 
+                                    </td>
+                                    <td align="left" widht="30%">Very Involved</td>
+                                </tr>
+                            </table> 
+                            </p:panel>
+                        </p:tab>
+
+                        <!--
+                        *******************************
+                        *     HEALTH QUESTION 6     *
+                        *******************************
+                        -->
+                        <p:tab title="Question 6: How thorough was the press coverage of the crisis in your community?">
+                            <p:panel id="category6Panel" class=".ui-panel" >                            
+                            <table width="100%" border="0" cellspacing="0" cellpadding="5"> 
+                                <tr align="center">
+                                    <p:inputText id="question6" value="#{surveyManager.question6}" required="true" requiredMessage="Please Answer Question 6!">
+                                        <f:validateLongRange minimum="0" maximum="10" /> 
+                                    </p:inputText> 
+                                </tr>
+                                <tr>
+                                    <td align="right" width="30%">There was no coverage&nbsp;</td>
+                                    <td align="center" width="40%">
+                                        <p:slider animate="true" for="question6" step="1" minValue="0" maxValue="10" /> 
+                                    </td>
+                                    <td align="left" widht="30%">Very Extensive</td>
+                                </tr>
+                            </table> 
+                            </p:panel>
+                        </p:tab>                        
+                       
+                    </p:accordionPanel>
+
+                    <br/>
+                    &nbsp;
+                    <p:commandButton value="Submit" update=":growlInfoMessage" icon="fas fa-arrow-up" ajax="false" 
+                                     action="#{surveyManager.processSurvey()}"  />
+                    &nbsp;
+                    <p:commandButton value="Clear All" update=":growlInfoMessage" icon="fas fa-undo" ajax="false"
+                                     action="#{surveyManager.clearSurvey(true)}" immediate="true" >
+
+                        <p:resetInput target="surveyForm" />
+                    </p:commandButton>
+
+                </h:form>                
+                <br/><br/>
+            </div>
+        </ui:define>
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Chengen Li on 2018.11.11
+Copyright © 2018 Chengnen Li. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="User List"></h:outputText>
+        </ui:define>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+
+            <div align="center" style="width:97%">
+                <br></br> <br></br>
+                <br></br> <br></br>
+                 <br></br> <br></br>
+                <h1>List of All Users</h1>
+
+                <h:form id="UserListForm">
+
+                    <p:panel header="List of All Users">
+
+                        <p:dataTable id="datalist" value="#{userController.userList}" var="item" rowIndexVar="row"
+                                     selectionMode="single" selection="#{userController.selected}"
+                                     paginator="true"
+                                     rowKey="#{item.id}"
+                                     rows="5"
+                                     rowsPerPageTemplate="5,10,20,30,40,50"
+                                     class="dataTable">
+
+                            <p:ajax event="rowSelect"   update="viewButton"/>
+                            <p:ajax event="rowUnselect" update="viewButton"/>
+                            <!--
+                            ********************************
+                            *      User photo column      *
+                            ********************************
+                            -->
+                            <p:column headerText="User Photo" style="text-align:center; width:80px;">
+                                <p:graphicImage cache="false" class="smallProfilePhoto" 
+                                                value="#{userController.getUserPhotoById(item.id)}" />
+                            </p:column>
+                            <!--
+                            ********************************
+                            *      IS organizer?           *
+                            ********************************
+                            -->
+                            <p:column headerText="Organizer" style="text-align:center; width:100px;">
+                                <h:outputText value="#{item.organizer}"/>
+                                 
+                            </p:column>
+                            <!--
+                            ********************************
+                            *      User first name colum   *
+                            ********************************
+                            -->
+                            <p:column headerText="First Name" style="text-align:center; width:100px;">
+                                <h:outputText value="#{item.firstName}"/>
+                            </p:column>
+                            <!--
+                            ********************************
+                            *      User last name colum    *
+                            ********************************
+                            -->
+                            <p:column sortBy="#{item.lastName}" headerText="Last Name" style="text-align:center; width:100px;">
+                                <h:outputText value="#{item.lastName}"/>
+                            </p:column>
+                            <!--
+                            ********************************
+                            *      Username column         *
+                            ********************************
+                            -->
+                            <p:column sortBy="#{item.username}" headerText="Username" style="text-align:center; width:100px;">
+                                <h:outputText value="#{item.username}"/>
+                            </p:column>
+
+                            <!--
+                            ********************************
+                            *           Footer             *
+                            ********************************
+                            -->
+                            <f:facet name="footer">
+                                <!-- 
+                                ===========
+                                VIEW Button
+                                ===========
+                                -->
+                                <p:commandButton id="viewButton" icon="fas fa-eye" value="View" 
+                                                  update=":UserDetailViewForm, :UserDetailViewDlg" 
+                                                  oncomplete="PF('UserDetailViewDialog').show()"
+                                                  disabled="#{empty userController.selected}"/>
+                                
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                               
+                                <p:commandButton id="backButton" icon="fas fa-arrow-right" value="Back To My Account" ajax="false"
+                                                 action="AdminProfile.xhtml?faces-redirect=true"/>
+                             
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </div>
+            
+        <ui:include src="/adminMenu/AdminUserDetail.xhtml"/>
+        </ui:define>
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>

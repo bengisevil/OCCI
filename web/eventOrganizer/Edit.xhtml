@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <!-- Dialog box for creating new recipe -->
+        <p:dialog id="EventEditDlg" widgetVar="EventEditDialog" modal="true" 
+                  resizable="false" appendTo="@(body)" header="Edit a New Event">
+
+            <h:form id="EventEditForm" class="ui-datatable-data">
+               <!-- A grid for displaying four required input for creating a new recipe -->
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2" 
+                                 rendered="#{organizerEventController.organizerEvents != null}">                       
+
+                        <p:outputLabel value="Event Name:" for="eventName" />
+                        <p:inputText id="eventName" class="inputTextField" 
+                                     value="#{organizerEventController.organizerEvent.eventName}" 
+                                     required="true" requiredMessage="Event Name cannot be Empty"
+                                     style="width: 600px"/>
+
+                        <p:outputLabel value="Event Organizer:" for="organizer" />
+                        <p:inputText id="organizer" class="inputTextField" 
+                                     value="#{organizerEventController.organizerEvent.organizer}" 
+                                     required="true" requiredMessage="Organizer cannot be Empty"
+                                     style="width: 600px"/>
+
+                        <p:outputLabel value="Event Description:" for="description" />
+                        <p:inputText id="description" class="inputTextField"
+                                     value="#{organizerEventController.organizerEvent.description}" 
+                                     style="width: 600px"/>
+
+                        <p:outputLabel value="Date of Event:" for="date" />
+                        <p:calendar id="date" pattern="MM/dd/yyyy" class="inputTextField" mask="true"
+                                    value="#{organizerEventController.organizerEvent.date}" 
+                                    required="true" requiredMessage="Please enter Event Date" />
+
+                         <p:outputLabel value="Event Location:" for="location" />
+                        <p:inputText id="location" class="inputTextField"
+                                     value="#{organizerEventController.organizerEvent.location}" 
+                                     style="width: 600px"/>
+                        
+                        <p:outputLabel value="Zip Code:" for="zipcode" />
+                        <p:inputText id="zipcode" class="inputTextField"
+                                     value="#{organizerEventController.organizerEvent.zipcode}" 
+                                     required="true" requiredMessage="Please enter Zip Code" 
+                                     style="width: 600px">
+                            <f:validateLength minimum="5" />
+                            <f:validator validatorId="zipCodeValidator"/> 
+                        </p:inputText>
+                        
+                        <p:outputLabel value="Event Capacity:" for="capacity" />
+                        <p:inputText id="capacity" class="inputTextField"
+                                     value="#{organizerEventController.organizerEvent.capacity}" 
+                                     style="width: 600px">
+                            <f:convertNumber pattern="#######" maxFractionDigits="0"/>
+                        </p:inputText>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <br />
+                    <div align="center">
+                        <!-- two buttons one for save the new recipe, and the other for cancel the action-->
+                        <p:commandButton actionListener="#{organizerEventController.edit}" value="Edit" 
+                                         icon="fas fa-plus" ajax="false"
+                                         update=":OrganizerEventForm:datalist,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
+                                         oncomplete="handleSubmit(args,'EventEditDialog');" />
+                        &nbsp;
+                        
+                        <p:commandButton value="Cancel" onclick="PF('EventEditDialog').hide()" 
+                                         icon="fas fa-ban" immediate="true" />
+                    </div>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+    </ui:composition>
+</html>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Created by Chengen Li on 2018.09.25
+Copyright © 2018 Chengen Li. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+   <!-- table list view for user videos-->
+    <ui:composition template="/template/siteTemplate.xhtml">
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="All Events"></h:outputText>
+        </ui:define>
+
+        <ui:define name="editableContent">
+
+            <div align="center" style="width:97%">
+                <br></br> <br></br>
+                <br></br> <br></br>
+                <br></br> <br></br>
+                <h1>List of All Events</h1>
+                <h:form id="AdminEventForm" style="margin-bottom: 120px">
+                    <p:panel header="List of All Events">
+                       <p:dataTable id="datalist" value="#{adminEventController.adminEvents}" var="item"
+                                     selectionMode="single" selection="#{adminEventController.adminEvent}"
+                                     reflow="true"
+                                     paginator="true"
+                                     rowKey="#{item.id}"
+                                     rows="10"
+                                     rowsPerPageTemplate="10,20,30,50,70,90"
+                                     class="dataTable"
+                                     >
+                            <!-- Update the status of buttons at the bottom of the table when user select of un-select the 
+                            publicVideos in the table-->
+                            <p:ajax event="rowSelect"   update="detailButton backButton"/>
+                            <p:ajax event="rowUnselect" update="detailButton backButton"/>
+
+
+                            <!-- Showing event id -->
+                            <p:column sortBy="#{item.id}" headerText="Id" 
+                                      style="width: 20px; height: 50px; text-align: center">
+                                <h:outputText value="#{item.id}"/>
+                            </p:column>
+                            
+                            <!-- Showing event title-->
+                            <p:column sortBy="#{item.eventName}" headerText="Event Name" 
+                                      style="text-align: center; width:100px;">
+                                <h:outputText value="#{item.eventName}"/>
+                            </p:column>
+                            
+                            <!-- Showing organizer name -->
+                            <p:column sortBy="#{item.organizer}" headerText="Organiser Name" 
+                                      style="text-align: center; width:100px;">
+                                <h:outputText value="#{item.organizer}"/>
+                            </p:column>
+                            
+                            <p:column sortBy="#{item.location}"  headerText="Location of the Event" 
+                                      style="text-align: center; width:100px;">
+                                <h:outputText value="#{item.location}"/>
+                            </p:column>
+                            <p:column sortBy="#{item.zipcode}"  headerText="Zip Code" 
+                                      style="text-align: center; width:100px;">
+                                <h:outputText value="#{item.zipcode}"/>
+                            </p:column>
+
+                            <!-- Showing event time -->
+                            <p:column sortBy="#{item.date}"  headerText="Date of Event" 
+                                      style="text-align: center; width:100px;">
+                                <h:outputText value="#{item.date}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            
+                            <p:column sortBy="#{item.capacity - item.peopleNum}" headerText="Avalible Seats" 
+                                      style="text-align: center; width:100px;">
+                                <h:outputText value="#{item.capacity - item.peopleNum}"/>
+                            </p:column>
+
+                            <br /><br />
+
+                            <f:facet name="footer">
+                               
+                                <!-- To show the details of the signed up event -->
+                                <p:commandButton id="detailButton" icon="fas fa-eye" value="Show Event Details"
+                                                 update=":AdminEventViewDlg"  oncomplete="PF('AdminEventViewDialog').show()"
+                                                 disabled="#{empty adminEventController.adminEvent}"/>
+                               
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                               
+                                <p:commandButton id="backButton" icon="fas fa-arrow-right" value="Back To My Account" ajax="false"
+                                                 action="AdminProfile.xhtml?faces-redirect=true"/>
+                               
+                  
+                            </f:facet>
+                       </p:dataTable>
+                            
+                    </p:panel>
+                </h:form>
+
+
+            </div>
+            
+            <ui:include src="/adminMenu/AdminEventDetail.xhtml"/>
+        </ui:define>
+        
+    </ui:composition>
+
+
+</html>

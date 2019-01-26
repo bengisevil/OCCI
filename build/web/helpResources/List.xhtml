@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Mahek Mehta on 2018.12.03
+Copyright © 2018 Mahek Mehta. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="/template/siteTemplate.xhtml">
+        <ui:define name="editableContent">
+            <div align = "center">
+                <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+                <!-- Video Player -->
+                <p:media value="https://www.youtube.com/v/PfwO4rrd5CM&amp;hl=en&amp;fs=1&amp;" 
+                         width="1000px" height = "700px" player="flash"></p:media>
+                <br></br><br></br>
+                <!-- Data Scroller that shows resources one resource at a time -->
+                <h:form > 
+                    <p:dataScroller value="#{resourceScroller.resources}" var="res" chunkSize="1">
+                        <f:facet name="header">
+                            Additional Resources
+                        </f:facet>
+                        <h:panelGrid columns="2" style="width: 100%" columnClasses="logo,detail">
+                            <p:graphicImage value="../resources/images/resourceImages/#{res.image}.jpg"
+                                            style="width: 150px; height: 150px"/> 
+
+                            <p:outputPanel>
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <h:outputText value="Name:" style="font-weight: bold"/>
+                                    <h:outputText value="#{res.name}"/>
+
+                                    <h:outputText value="Website:" style="font-weight: bold"/>
+                                    <a href="#{res.website}"  target="_blank" style="color: blue">
+                                        #{res.website} </a>
+
+                                    <h:outputText value="Description:" style="font-weight: bold"/>
+                                    <h:outputText value="#{res.description}"/>
+                                </h:panelGrid>
+                            </p:outputPanel>
+                        </h:panelGrid>
+                    </p:dataScroller>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

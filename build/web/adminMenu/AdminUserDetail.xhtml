@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Created by Chengen Li on 2018.11.11
+Copyright © 2018 Chengnen Li. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:composition>
+
+        <!--
+        *********************************************
+        Dialog pop-up window to VIEW (READ) a User Detail
+        *********************************************
+        -->
+        <p:dialog id="UserDetailViewDlg" widgetVar="UserDetailViewDialog" modal="true" 
+                  resizable="false" appendTo="@(body)" header="#{userController.selected.firstName} #{userController.selected.middleName} #{userController.selected.lastName}">
+
+            <h:form id="UserDetailViewForm" class="ui-datatable-data">
+                <div align="center">
+                    <h:panelGroup id="display">
+                        <h:outputText value="#{userController.selected.firstName} #{userController.selected.middleName} #{userController.selected.lastName}"
+                                      style="font-size: 12pt"/>
+                            <br />
+                            <br />
+                            <p:graphicImage cache="false" class="profilePhoto" value="#{userController.getUserPhotoById(userController.selected.id)}" />
+                            <br />
+                            <br />
+                            <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2" >
+                                
+                                <h:outputText value="Event Organizer:"/> 
+                                <c:if test="#{userController.selected.organizer == true}">
+                                    <h:outputText value="true"/>
+                                </c:if>
+                                <c:if test="#{userController.selected.organizer == false}">
+                                    <h:outputText value="false"/>
+                                </c:if>
+                                
+                                <h:outputText value="#{bundle.ViewUserLabel_firstName}"/>
+                                <h:outputText value="#{userController.selected.firstName}" />
+
+                                <h:outputText value="#{bundle.ViewUserLabel_middleName}"/>
+                                <h:outputText value="#{userController.selected.middleName}" />
+
+                                <h:outputText value="#{bundle.ViewUserLabel_lastName}"/>
+                                <h:outputText value="#{userController.selected.lastName}" />
+
+                                <h:outputText value="#{bundle.ViewUserLabel_address1}"/>
+                                <h:outputText value="#{userController.selected.address1}" />
+
+                                <h:outputText value="#{bundle.ViewUserLabel_address2}"/>
+                                <h:outputText value="#{userController.selected.address2}" />
+
+                                <h:outputText value="#{bundle.ViewUserLabel_city}"/>
+                                <h:outputText value="#{userController.selected.city}" />
+
+                                <h:outputText value="#{bundle.ViewUserLabel_state}"/>
+                                <h:outputText value="#{userController.selected.state}" />
+
+                                <h:outputText value="#{bundle.ViewUserLabel_zipcode}"/>
+                                <h:outputText value="#{userController.selected.zipcode}" />
+
+                                <h:outputText value="#{bundle.ViewUserLabel_email}"/>
+                                <h:outputText value="#{userController.selected.email}" />
+
+                                <h:outputText value="#{bundle.ViewUserLabel_username}"/>
+                                <h:outputText value="#{userController.selected.username}" />
+                                
+                                <c:if test="#{userController.selected.organizer == true}">
+                                    <h:outputText value="Organization Name:"/>
+                                    <h:outputText value="#{userController.selected.organizationName}" />
+
+                                    <h:outputText value="Organization Description:"/>
+                                    <h:outputText value="#{userController.selected.organizationDescription}" />
+                                </c:if>
+
+                            </p:panelGrid>
+
+                    </h:panelGroup>
+                    <br /><br />
+                    <h:panelGroup>
+                        <!-- CLOSE button -->
+                        <p:commandButton value="#{bundle.Close}" onclick="UserDetailViewDialog.hide()" 
+                                         icon="fas fa-window-close" />
+                    </h:panelGroup>
+                    <br /><br />
+                </div>
+            </h:form>
+
+        </p:dialog>
+    </ui:composition>
+</html>

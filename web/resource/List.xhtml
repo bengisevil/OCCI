@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Mahek Mehta on 2018.12.03
+Copyright © 2018 Mahek Mehta. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="/template/siteTemplate.xhtml">
+        <ui:define name="editableContent">
+            
+            
+            <div id="findcenters">
+                Find help in:
+            </div>
+            
+            <!-- Input field for city -->
+            <div id="locationField">
+                <input id="autocomplete" placeholder="Enter a city" type="text" />
+            </div>
+            
+            <!-- Provides options for North American countries -->
+            <div id="controls">
+                <select id="country">
+                    <option value="ca">Canada</option>
+                    <option value="mx">Mexico</option>
+                    <option value="us" selected = "selected">U.S.A.</option>
+                </select>
+            </div>
+
+            <div id="map"></div>
+
+            <div id="listing">
+                <table id="resultsTable">
+                    <tbody id="results"></tbody>
+                </table>
+            </div>
+            
+            <!-- Information window that opens when user clicks on a marker-->
+            <div style="display: none">
+                <div id="info-content">
+                    <table>
+                        <tr id="iw-url-row" class="iw_table_row">
+                            <td id="iw-icon" class="iw_table_icon"></td>
+                            <td id="iw-url"></td>
+                        </tr>
+                        <tr id="iw-address-row" class="iw_table_row">
+                            <td class="iw_attribute_name">Address:</td>
+                            <td id="iw-address"></td>
+                        </tr>
+                        <tr id="iw-phone-row" class="iw_table_row">
+                            <td class="iw_attribute_name">Telephone:</td>
+                            <td id="iw-phone"></td>
+                        </tr>
+                        <tr id="iw-rating-row" class="iw_table_row">
+                            <td class="iw_attribute_name">Rating:</td>
+                            <td id="iw-rating"></td>
+                        </tr>
+                        <tr id="iw-website-row" class="iw_table_row">
+                            <td class="iw_attribute_name">Website:</td>
+                            <td id="iw-website"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSUY9-NHG3ceC1lZw01XddUny9tkv3uds&amp;libraries=places&amp;callback=createMap"
+            async = 'async' defer = 'defer'></script>
+
+        </ui:define>
+
+    </ui:composition>
+
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>

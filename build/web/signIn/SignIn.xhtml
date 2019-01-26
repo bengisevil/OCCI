@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Bengi Sevil on 2018.10.30
+Copyright © 2018 Bengi Sevil. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="Sign In"></h:outputText>
+        </ui:define>
+        
+        <meta charset="UTF-8">
+            <meta name="google-signin-scope" content="profile email"/>'
+               
+            <!--Need to go to google console to get a new api key and CLIENT_ID  see https://developers.google.com/identity/sign-in/web/-->
+            <meta name="google-signin-client_id" content="249048698372-dmpas3kpol9t8d8bc6f7bburc1t4tdc17.apps.googleusercontent.com"/>
+        </meta>  
+        <script src="https://apis.google.com/js/platform.js" async="async">
+        </script>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+            <div align="center" width="100%">
+                <br></br><br></br><br></br><br></br><br></br><br></br>
+                <h1>Sign In</h1>
+                <br />
+
+                <h:form id="abc">
+                    <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2">
+
+                        <h:outputLabel value="Username:" for="username" />
+                        <p:inputText id="username" value="#{loginManager.username}" required="true" class="inputTextField"
+                                     requiredMessage="#{bundle.CreateUserRequiredMessage_username}" label="Username" >
+                        </p:inputText>
+
+                        <h:outputLabel value="Password:" for="password" />
+                        <p:password id="password" value="#{loginManager.password}" feedback="false" class="inputTextField" >
+                        </p:password>
+
+                    </p:panelGrid>
+
+                    <br/>
+                    <br/>
+                    <!--
+                    ================================
+                    |         SIGN IN Button       |
+                    ================================
+                    -->
+                    <p:commandButton id="login" value="Sign In" action="#{loginManager.loginUser()}" 
+                                     ajax="false" icon="fas fa-sign-in-alt" />
+                    &nbsp;
+                    <!--
+                    ================================
+                    |   CREATE AN ACCOUNT Button   |
+                    ================================
+                    -->
+                    <p:button outcome="/userAccount/CreateAccount" value="&nbsp;Create an Account" icon="fas fa-user-plus"  />
+
+                    &nbsp;
+                    <!--
+                    ================================
+                    |    FORGOT PASSWORD Button    |
+                    ================================
+                    -->               
+                    <p:button outcome="/userPasswordChange/EnterUsername" value="Forgot Password" icon="fas fa-key"  />
+                    
+                    &nbsp;
+                    <!--
+                    ================================
+                    |         CANCEL Button        |
+                    ================================
+                    -->
+                    <p:button outcome="/index" value="Cancel" icon="fas fa-ban"  />
+                    
+                    
+                    &nbsp;
+                    <br></br><br></br>
+                     <f:view contentType="text/html">
+                        <h:head>
+                            <meta charset="UTF-8">
+                               <meta name="google-signin-scope" content="profile email"/>
+
+                               <!--Need to go to google console to get a new api key and CLIENT_ID  see https://developers.google.com/identity/sign-in/web/-->
+                               <meta name="google-signin-client_id" content="249048698372-dmpa3kpol9t8d8bc6f7bburc1t4tdc17.apps.googleusercontent.com"/>
+                               </meta>  
+                               <script src="https://apis.google.com/js/platform.js" async="async">
+
+                               </script>
+                        </h:head>
+                        <br></br>
+                        <h:outputText value="Or" style="color: darkblue"/>
+                        <br/><br></br>
+                        <h:outputText value="Sign up with Google as a Participant" style="color: darkblue"/>
+                        <br></br><br></br><br></br>
+                        <h:body>
+                            
+                            <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+                                <script type="text/javascript">
+                                  function onSignIn(googleUser) {
+                                    // Useful data for your client-side scripts:
+                                    var profile = googleUser.getBasicProfile();
+                                    document.getElementById("form:firstName").value = profile.getGivenName().toString();
+                                    document.getElementById('form:lastName').value = profile.getFamilyName().toString();
+                                    document.getElementById('form:imageUrl').value = profile.getImageUrl().toString();
+                                    document.getElementById('form:email').value = profile.getEmail().toString();
+                                    console.log("hahaha: "+document.getElementById("form:lastName").value);
+                                    signOut();
+                                    callRemoteMethod();
+                                  };
+                                  function signOut() {
+                                      var auth2 = gapi.auth2.getAuthInstance();
+                                      auth2.signOut().then(function () {
+                                        console.log('User signed out.');
+                                      });
+                                    }
+                                </script>
+                        </h:body>
+                           
+                        </f:view>
+                </h:form>
+                <h:body>
+                    <h:form id="form">
+                        <p:remoteCommand name="callRemoteMethod"
+                            action="#{userController.googleInfo}" />
+                        <h:inputHidden id="firstName" value="#{userController.firstName}" />
+                        <h:inputHidden id="lastName" value="#{userController.lastName}" />
+                        <h:inputHidden id="imageUrl" value="#{userController.imageUrl}" />
+                        <h:inputHidden id="email" value="#{userController.email}" />
+                    </h:form>
+                </h:body>
+
+            </div>
+            <br/><br/><br/>
+        </ui:define>
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>

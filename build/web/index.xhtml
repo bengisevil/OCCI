@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+**********************************************************
+*   Statement of Compliance with the Stated Honor Code   *
+**********************************************************
+I hereby declare on my honor that:
+ 
+ (1) All work is completely my own in this Assignment.
+ (2) I did NOT receive any help about how to develop the assignment app.
+ (3) I did NOT give any help to anyone about how to develop the assignment app.
+ (4) I did NOT ask questions to Dr. Balci, GTA or UTA about how to develop the assignment app.
+ 
+I am hereby writing my name as my signature to declare that the above statements are true:
+   
+      Bengi Sevil
+ 
+**********************************************************
+-->
+<!--
+Created by Bengi Sevil on 2018.10.30
+Copyright © 2018 Bengi Sevil. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+
+            <div align="center" style="margin-top: 200px">
+                <!-- 
+                ========================================
+                *    Twitter Ticker                    *
+                ========================================
+                -->
+                <div class="tickerIcon">
+                    <a class="social-roll" href="https://twitter.com/NIDAnews?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" target="_blank">
+                        <img src="#{resource['images:socialMediaIcons/twitter.png']}" /></a>
+
+                </div>
+                <h:form class="tickerContainer" id="ticker-container">
+                    <!-- 
+                    We create the ticker <div> animation 4 times as concatenated one after the other
+                    so that there is enough content to fill up the entire screen horizontally.
+                    -->
+                    <c:forEach begin="1" end="4" var="i">
+
+                        <!-- This ticker <div> is animated as moving horizontally from right to left -->
+                        <div class="ticker">
+                            <c:forEach var="tweets" items="#{tweetTicketController.tweets}">
+
+                                <a class="tickerItem" href="https://twitter.com/NIDAnews?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" target="_blank">
+                                    #{tweets}
+                                </a>
+
+                            </c:forEach>
+                        </div>
+
+                    </c:forEach>
+                </h:form>
+
+                <!-- 
+                ================================================================
+                *   Input Switch Button to enable info images or Recent news   *
+                ================================================================
+                -->
+                <h:form id="switchButton">
+                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                        <div align="center" style="color: darkcyan; font-family: serif; font-size: 14pt"> Display Recent OPIOID News  </div>
+                        <p:inputSwitch value="#{sliderController.displayNews}"> 
+                            <p:ajax listener="#{sliderController.setDisplayNews(value)}" update="imageSlider" />
+                        </p:inputSwitch>
+                    </h:panelGrid>
+                </h:form>
+
+                <!-- 
+                ========================================
+                *   PrimeFaces Galleria Image Slider   *
+                ========================================
+                Various effect options for transitions: blind, bounce, clip, drop, explode, fade,
+                fold, highlight, puff, pulsate, scale, shake, size, slide, and transfer.
+                -->
+                <h:form id="imageSlider">
+                    <c:choose>
+                        <c:when test="#{sliderController.displayNews == false}"> 
+                            <p:galleria value="#{sliderController.sliderImages}" 
+                                        var="image" effect="fade" effectSpeed="1200" showFilmstrip="true"
+                                        panelWidth="800" panelHeight="530" showCaption="true" style="color:white" >
+
+                                <p:graphicImage value="/resources/images/imageSliderPhotos/#{image}" 
+                                                alt="#{sliderController.description(image)}" title="" style="color: white;"/>
+
+                            </p:galleria>
+                        </c:when>
+                        <c:otherwise>
+                            <c:when test="#{sliderController.displayNews == true}">
+                                <p:galleria value="#{sliderController.recentNews}" 
+                                            var="image" effect="fade" effectSpeed="1500" showFilmstrip="true"
+                                            panelWidth="800" panelHeight="530" showCaption="true" style="color:white" >
+                                        #{sliderController.getUrl(image)}
+                                        <p:graphicImage url="#{sliderController.getImageUrl(image)}" 
+                                                        alt="#{sliderController.getDate(image)}#{sliderController.getTitle(image)}" title="" style="color: white;"/>
+                                    
+                                </p:galleria>
+                            </c:when>
+                        </c:otherwise>
+                    </c:choose> 
+                </h:form>
+                <br></br><br></br>
+            </div>
+
+        </ui:define>
+
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>

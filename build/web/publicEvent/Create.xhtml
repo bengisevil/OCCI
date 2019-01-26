@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PublicEventCreateDlg" widgetVar="PublicEventCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreatePublicEventTitle}">
+            <h:form id="PublicEventCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{publicEventController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreatePublicEventLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{publicEventController.selected.id}" title="#{bundle.CreatePublicEventTitle_id}" required="true" requiredMessage="#{bundle.CreatePublicEventRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreatePublicEventLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{publicEventController.selected.name}" title="#{bundle.CreatePublicEventTitle_name}" required="true" requiredMessage="#{bundle.CreatePublicEventRequiredMessage_name}"/>
+                        <p:outputLabel value="#{bundle.CreatePublicEventLabel_organizer}" for="organizer" />
+                        <p:inputText id="organizer" value="#{publicEventController.selected.organizer}" title="#{bundle.CreatePublicEventTitle_organizer}" required="true" requiredMessage="#{bundle.CreatePublicEventRequiredMessage_organizer}"/>
+                        <p:outputLabel value="#{bundle.CreatePublicEventLabel_description}" for="description" />
+                        <p:inputText id="description" value="#{publicEventController.selected.description}" title="#{bundle.CreatePublicEventTitle_description}" required="true" requiredMessage="#{bundle.CreatePublicEventRequiredMessage_description}"/>
+                        <p:outputLabel value="#{bundle.CreatePublicEventLabel_date}" for="date" />
+                        <p:calendar id="date" pattern="MM/dd/yyyy" value="#{publicEventController.selected.date}" title="#{bundle.EditPublicEventTitle_date}" required="true" requiredMessage="#{bundle.EditPublicEventRequiredMessage_date}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreatePublicEventLabel_zipcode}" for="zipcode" />
+                        <p:inputText id="zipcode" value="#{publicEventController.selected.zipcode}" title="#{bundle.CreatePublicEventTitle_zipcode}" required="true" requiredMessage="#{bundle.CreatePublicEventRequiredMessage_zipcode}"/>
+                        <p:outputLabel value="#{bundle.CreatePublicEventLabel_count}" for="count" />
+                        <p:inputText id="count" value="#{publicEventController.selected.count}" title="#{bundle.CreatePublicEventTitle_count}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{publicEventController.create}" value="#{bundle.Save}" update="display,:PublicEventListForm:datalist,:growl" oncomplete="handleSubmit(args,'PublicEventCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PublicEventCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

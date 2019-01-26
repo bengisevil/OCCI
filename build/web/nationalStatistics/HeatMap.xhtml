@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Created by Zach King on 2018.12.03 
+Copyright © 2018 Zach King. All rights reserved.
+Resources: https://developers.google.com/chart/
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template/siteTemplate.xhtml"> 
+
+        <!-- A heat map of US States and their cumulative drug overdoses between 2015 and 2017. -->
+        <ui:define name="editableContent">
+
+            <div align="center">  
+                <br></br><br></br><br></br><br></br><br></br><br></br>
+                <!--
+                <p:chart id="barChart" type="bar" model="#{heatMapController.barChart}" 
+                         style="height:500px;width:900px" responsive="true" /> -->
+
+
+                <!-- The jsonData collected through the heatMapController is stored here so that
+                        the chart can access it. -->
+                <h:inputHidden id="jsonResult" value="#{heatMapController.jsonData}" />
+
+                
+                <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+                <script type='text/javascript'>
+                    google.charts.load('current', {
+                    'packages': ['geochart'],
+                            // Note: you will need to get a mapsApiKey for your project.
+                            // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+                            'mapsApiKey': 'AIzaSyBSUY9-NHG3ceC1lZw01XddUny9tkv3uds'
+                    });
+                    google.charts.setOnLoadCallback(drawMarkersMap);
+                    function drawMarkersMap() {
+
+                        var dataArray = [
+                        ['State', 'Total Deaths'],
+                        ];
+                        var jsonString = document.getElementById('jsonResult').value;
+                        var jsonData = JSON.parse(jsonString);
+
+                        var pointsData = [['State', 'Total']];
+                    // Obtain the number of data points
+                        var length = jsonData.length;
+                        var testObj = jsonData[0];
+                        var testYear = testObj.year;
+                        var j = 0;
+                    // Iterate for all state data points that involve overdoses or opioids
+                        while (j &lt; length) {
+
+                            if ((jsonData[j].indicator === "Number of Deaths" | jsonData[j].indicator.indexOf("opioids") !== -1) &amp; jsonData[j].state !== "US") {
+                                var locality = jsonData[j].state;
+                                var total = jsonData[j].data_value;
+                                var totalInt = parseInt(total);
+                                var addValue = [locality, totalInt];
+                                dataArray.push(addValue);
+                            }
+                            j++;
+                        }
+
+
+                        // Stores array in data table to be converted to chart
+                        var data = google.visualization.arrayToDataTable(dataArray);
+                        var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+                        
+                        // Setting resolution to provinces displays the states of the US
+                        var options = {
+                            region: 'US',
+                            resolution: "provinces",
+                            colorAxis: {colors: ['orange', 'red']}
+                        };
+                        chart.draw(data, options);
+               
+                        // Opens a new window to the NIDA (National Institute on Drug Abuse wepage for a state when clicked on. 
+                        google.visualization.events.addListener(chart, 'regionClick', regionHandler);
+        
+                        function regionHandler(e) {
+                            // e.region is the object that is created when a state is clicked upon. 
+                            var stateObj = e.region;
+                            
+                            // This map is used to translate state abbreviations ("US-AL") to full 
+                            // state names (alabama), which can then be placed in the url for the NIDA website.
+                            
+                            var stateMap = new Map();
+                            stateMap.set("US-AL", "alabama");
+                            stateMap.set("US-AK", "alaska");
+                            stateMap.set("US-AZ", "arizona");
+                            stateMap.set("US-AR", "arkansas");
+                            stateMap.set("US-CA", "california");
+                            stateMap.set("US-CO", "colorado");
+                            stateMap.set("US-CT", "connecticut");
+                            stateMap.set("US-DE", "delaware");
+                            stateMap.set("US-FL", "florida");
+                            stateMap.set("US-GA", "georgia");
+                            stateMap.set("US-HI", "hawaii");
+                            stateMap.set("US-ID", "idaho");
+                            stateMap.set("US-IL", "illinois")
+                            stateMap.set("US-IN", "indiana");
+                            stateMap.set("US-IA", "iowa");
+                            stateMap.set("US-KS", "kansas");
+                            stateMap.set("US-KY", "kentucky");
+                            stateMap.set("US-LA", "louisiana");
+                            stateMap.set("US-ME", "maine");
+                            stateMap.set("US-MD", "maryland");
+                            stateMap.set("US-MA", "massachusetts");
+                            stateMap.set("US-MI", "michigan");
+                            stateMap.set("US-MN", "minnesota");
+                            stateMap.set("US-MS", "mississippi");
+                            stateMap.set("US-MO", "missouri");
+                            stateMap.set("US-MT", "montana");
+                            stateMap.set("US-NE", "nebraska");
+                            stateMap.set("US-NV", "nevada");
+                            stateMap.set("US-NH", "new-hampshire");
+                            stateMap.set("US-NJ", "new-jersey");
+                            stateMap.set("US-NM", "new-mexico");
+                            stateMap.set("US-NY", "new-york");
+                            stateMap.set("US-NC", "north-carolina");
+                            stateMap.set("US-ND", "north-dakota");
+                            stateMap.set("US-OH", "ohio");
+                            stateMap.set("US-OK", "oklahoma");
+                            stateMap.set("US-OR", "oregon");
+                            stateMap.set("US-PA", "pennsylvania");
+                            stateMap.set("US-RI", "rhode-island");
+                            stateMap.set("US-SC", "south-carolina");
+                            stateMap.set("US-SD", "south-dakota");
+                            stateMap.set("US-TN", "tennessee");
+                            stateMap.set("US-TX", "texas");
+                            stateMap.set("US-UT", "utah");
+                            stateMap.set("US-VT", "vermont");
+                            stateMap.set("US-VA", "virginia");
+                            stateMap.set("US-WA", "washington");
+                            stateMap.set("US-WV", "west-virginia");
+                            stateMap.set("US-WI", "wisconsin");
+                            stateMap.set("US-WY", "wyoming");
+                        
+                            var searchState = String(stateObj);
+                            
+                            // Searches map for the given state abbreviation.
+                            var state = stateMap.get(searchState);
+
+                            var searchQuery = "https://www.drugabuse.gov/drugs-abuse/opioids/opioid-summaries-by-state/";
+                            var queryEnd = "-opioid-summary";
+                            var searchUrl = searchQuery + state + queryEnd;
+
+                            // Opens a new window showing the NIDA page for the specified state. 
+                            window.open(searchUrl);
+                        }
+                    };
+                </script> 
+                
+                <br /><br />
+                <h1> Image Map of Overdoses from 2015 to 2017 by State </h1>
+                <br /><br />
+                
+                <!-- Displays the HeatMap -->
+                <div id="chart_div" style="width: 900px; height: 400px;"></div>
+
+                <br /><br />
+                <br />
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>
